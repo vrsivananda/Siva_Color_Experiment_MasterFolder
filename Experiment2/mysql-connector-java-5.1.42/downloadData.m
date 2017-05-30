@@ -89,10 +89,15 @@
         %This will create a cell array with the dimensions of your SQL table.
         %As of now, this should have 180 trials
         StimulusData2 = curs2.Data;
-
-
-        %Grab the columns you want from the array and convert them to 1-D matrices.
-        flashes2 = [StimulusData2{:,12}]'; %How many flashes there were in that trial.
+        
+        %If the cell has indicates no data, then number is zero
+        if(isequal(StimulusData2{1,1},'No Data'))
+            flashes2 = 0;
+        else
+            %Grab the columns you want from the array and convert them to 1-D matrices.
+            flashes2 = [StimulusData2{:,12}]'; %How many flashes there were in that trial.
+        end
+        
         zeroFlashes2 = sum(flashes2 == 0); %Number times hit "P" for 0 flash condition 
         nineFlashes2 = sum(flashes2 == 9); %Number times hit "P" for 9 flash condition
         
@@ -202,19 +207,19 @@
         %Note that some will need to be re-coded/corrected in analyzeData.m
         save(fname,'x','y1');
 
-    end
+    end %End of the for loop that loops through the participants
     
-    %Omit the fourth
-    pseStore1(:,4) = [];
-    pseStore2(:,4) = [];
-    yStore1(4,:) = [];
-    yStore2(4,:) = [];
-    
-    %Omit the first
-    pseStore1(:,1) = [];
-    pseStore2(:,1) = [];
-    yStore1(1,:) = [];
-    yStore2(1,:) = [];
+     %Omit the fourth
+     pseStore1(:,4) = [];
+     pseStore2(:,4) = [];
+     yStore1(4,:) = [];
+     yStore2(4,:) = [];
+     
+     %Omit the first
+     pseStore1(:,1) = [];
+     pseStore2(:,1) = [];
+     yStore1(1,:) = [];
+     yStore2(1,:) = [];
     
     
     %Analysis over all the subjects
